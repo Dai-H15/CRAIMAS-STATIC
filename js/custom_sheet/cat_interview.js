@@ -3,8 +3,9 @@ const cat_interview = {
 }
 
 function init(){
-    document.getElementById('choice').addEventListener('change', function() {
-        window.location.href = this.value;
+    document.getElementById('choice').addEventListener('change', ()=>{
+        const val = document.getElementById('choice').selectedOptions[0].value;
+        window.location.href = val;
     });
 }
 
