@@ -2,9 +2,11 @@ const calendar_main = {
     "init":init,
     "get_calendar": get_calendar,
     "new_task": new_task,
+    "STATIC_URL": ""
 }
 
 function init(url){
+    calendar_main.STATIC_URL = url
     let loading = document.getElementById("loading");
     window.onload = async function get_init_calendar(){
         loading.style = "visibility:visible";
@@ -20,17 +22,20 @@ function init(url){
     }
     let checkbox = document.getElementById("calendar-check");
     checkbox.addEventListener("click", ()=>{
-            get_calendar(url, 'z')
+            get_calendar('z')
     })
-
-
+    document.getElementById("select-company").addEventListener("change", ()=>{
+        get_calendar("s")
+    })
 }
-    async function get_calendar(url, to){
+    async function get_calendar(to){
+        let url = calendar_main.STATIC_URL;
         loading.style = "visibility:visible";
         let contentMonth = document.getElementById("month");
         let contentYear = document.getElementById("year");
         let month = parseInt(document.getElementById("month").textContent);
         let year = parseInt(document.getElementById("year").textContent);
+        let search = document.getElementById("select-company").selectedOptions[0].value;
         let checkbox = document.getElementById("calendar-check");
         let active = "deactive";
         if (to == "n"){
@@ -40,7 +45,12 @@ function init(url){
                 month = 1;
                 year += 1;
             };
-        }else if(to == "b"){
+        }else if(to == "s" || to== "z"){
+            if(search != 0){
+                url = url.replace("search", search)
+            }
+        }
+        else if(to == "b"){
             if(1< month && month <=12){
                 month -= 1;
         }else{
@@ -55,6 +65,9 @@ function init(url){
         }
         let table = document.getElementsByTagName("table")[0];
         url = url.replace("month", month).replace("year", year).replace("status", active);
+        if(search != "0"){
+            url = url.replace("search", search)
+        }
         let response = await fetch(url);
         let data = await response.text();
         table.innerHTML = data;
