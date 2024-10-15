@@ -25,6 +25,7 @@ import ESmanage from "./ESmanage/ESmanage";
 import ESdata from "./mypage/ESdata"
 import search_interviewer from "./interview/search_interviewer";
 import ManagementInfomation from "./management/ManagementInfomation";
+import Index from './index'
 
 const bundle = {
     "apply_extension": apply_extension,
@@ -54,6 +55,7 @@ const bundle = {
     "ManagementInfomation": ManagementInfomation,
     "ESmanage": ESmanage,
     "ESdata": ESdata,
-    "version": "2.4.7"
+    "Index": Index,
+    "version": "2.6.7"
 }
 export default bundle;
