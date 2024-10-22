@@ -56,6 +56,6 @@ const bundle = {
     "ESmanage": ESmanage,
     "ESdata": ESdata,
     "Index": Index,
-    "version": "2.6.9"
+    "version": "2.7.9"
 }
 export default bundle;
