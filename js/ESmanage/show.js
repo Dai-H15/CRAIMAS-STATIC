@@ -1,6 +1,6 @@
 const show = {
     "search": search,
-    "init": init
+    "init": init,
 }
 
 async function search(from_url){

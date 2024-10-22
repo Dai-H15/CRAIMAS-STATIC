@@ -2,6 +2,7 @@ const open_as_window ={
     wind : [],
     "init":init,
     "open_as_window":main,
+    "pop":pop
 }
 export default open_as_window;
 
@@ -18,3 +19,6 @@ function init(){
 function main(url,name,width,height){
     open_as_window.wind.push(window.open(`${url}`, `${name}`, `width=${width},height=${height},toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes`))
 };
+function pop(){
+    open_as_window.wind.pop()
+}

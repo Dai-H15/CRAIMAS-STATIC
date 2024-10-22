@@ -136,8 +136,6 @@ function disable_autosave(){
     const time_toast = document.getElementById('time-toast');
     const time_toastBootstrap = bootstrap.Toast.getOrCreateInstance(time_toast);
     time_toastBootstrap.hide();
-
-
 }
 function init(){
     let wind3;
