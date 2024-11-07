@@ -99,7 +99,7 @@ function init(url){
         function move_to_interview_main(event){
             if(event.target.selectedIndex === 0){return}
             const target = event.target.selectedOptions[0];
-            Main.default.open_as_window.open_as_window(url.replace("placeholder", target.value), "new_task_tab", 400,800);
+            Main.default.open_as_window.open_as_window(url.replace("placeholder", target.value), "new_task_tab", 500,1000);
         }
     }
 
