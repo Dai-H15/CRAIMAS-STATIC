@@ -1,6 +1,7 @@
 const show = {
     "search": search,
     "init": init,
+    "page": page,
 }
 
 async function search(from_url){
@@ -11,7 +12,8 @@ async function search(from_url){
         alert("検索文字列を入力してください");
         return
     }
-    const URL = from_url.replace("placeholder", document.getElementById("search_str").value)
+    let URL = from_url.replace("placeholder", document.getElementById("search_str").value)
+    URL = URL.replace("page_num", 1)
     let res = await fetch(URL)
     let data = await res.text()
     table.innerHTML = data
@@ -23,5 +25,15 @@ async function init(url){
     let data = await res.text()
     table.innerHTML = data
     document.getElementById("search_str").value = ""
+}
+
+async function page(from_url, page_num) {
+    let table = document.getElementById("post_list")
+    table.innerHTML = '<div class="row"><div class="spinner-border text-success mx-auto text-center" role="status" id = "loading"><span class="visually-hidden">Loading...</span></div></div>';
+    let URL = from_url
+        URL = URL.replace("page_num", page_num)
+    let res = await fetch(URL)
+    let data = await res.text()
+    table.innerHTML = data
 }
 export default show;
