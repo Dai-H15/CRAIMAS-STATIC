@@ -7,6 +7,8 @@ const interview = {
     "t_save":t_save,
     "ai_loading_change":ai_loading_change,
     "get_note_summary":get_note_summary,
+    "close_window": close_window,
+    "exit_url": "",
     "id_autosave": "initialized",
 }
 import open_as_window from "../open_as_window";
@@ -137,16 +139,19 @@ function disable_autosave(){
     const time_toastBootstrap = bootstrap.Toast.getOrCreateInstance(time_toast);
     time_toastBootstrap.hide();
 }
-function init(){
-    let wind3;
-    window.addEventListener('beforeunload', function(){
-        if (wind3){
-            wind3.close();
-        }
+function init(url){
+    const session_id = document.getElementById("interview_session_code").value;
+    interview.exit_url = url.replace("placeholder", session_id);
+    console.log(interview.exit_url);
+    window.addEventListener("beforeunload", async (event) =>{
+        event.preventDefault();
+        event.returnValue = '';
+        await close_window();
         window.opener.location.reload();
-        });
 
-        let s = document.getElementById("auto-save-check");
+    })
+
+    let s = document.getElementById("auto-save-check");
         s.addEventListener("click", () => {
             if(s.checked){
                 enable_autosave()
@@ -155,6 +160,12 @@ function init(){
             }
         })
 }
+async function close_window(){
+    const res = await fetch(interview.exit_url);
+    const data = await res.text()
+    document.body.innerHTML = data;
+}
+
 function ai_loading_change(){
     let aiButton = document.getElementById("ai-button");
     let loadingText = document.getElementById("ai-status-loading-text");
