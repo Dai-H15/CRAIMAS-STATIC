@@ -161,9 +161,18 @@ function init(url){
         })
 }
 async function close_window(){
+    let s = document.getElementById("auto-save-check");
+    if(s.checked){
+        disable_autosave()
+    }
+    let status = document.getElementById("status-toast");
+    let time = document.getElementById("time-toast");
+    status.hidden = true;
+    time.hidden = true;
     const res = await fetch(interview.exit_url);
     const data = await res.text()
-    document.body.innerHTML = data;
+    let view_container = document.getElementById("form-container")
+    view_container.innerHTML = data;
 }
 
 function ai_loading_change(){
