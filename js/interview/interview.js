@@ -92,15 +92,13 @@ async function t_save(autosave){
         }
     }else{
         toast = document.getElementById('status-toast');
-        toast.className = "toast bg-danger";
         toastBootstrap = bootstrap.Toast.getOrCreateInstance(toast);
         document.getElementById("auto-save-check").checked = false;
         disable_autosave();
+        toast.className = "toast bg-danger";
         document.getElementById('toast-status').innerHTML = `保存に失敗しました。 <br> 理由:  ${data.errors}` ;
         toastBootstrap.show();
     }
-    
-
 };
 async function delete_interview(url){
     if(window.confirm("本当に削除しますか？") == false){
@@ -142,14 +140,52 @@ function disable_autosave(){
 function init(url){
     const session_id = document.getElementById("interview_session_code").value;
     interview.exit_url = url.replace("placeholder", session_id);
-    console.log(interview.exit_url);
     window.addEventListener("beforeunload", async (event) =>{
         event.preventDefault();
         event.returnValue = '';
         await close_window();
         window.opener.location.reload();
-
     })
+    //開始日時変更時に自動で終了時刻がセットされる
+    let date = document.getElementById("id_date");
+    date.addEventListener("change", () => {
+    let end_date = document.getElementById("id_end_date");
+    end_date.value = date.value;
+    })
+    //GoogleCalendar連携
+    let GoogleCalendar = document.getElementById("GoogleCalendar")
+    GoogleCalendar.addEventListener("click", () =>{
+        Main.default.interview.t_save(false);
+        let baseURL = "https://www.google.com/calendar/event"
+        let title = document.getElementById("id_title");
+        let note  = document.getElementById("id_note");
+        let place = document.getElementById("id_place");
+        let start = document.getElementById("id_date");
+        let Event_URL = document.getElementById("id_Event_URL");
+        let start_date_utc = new Date(start.value).toISOString().replace(/-|:|\.\d\d\d/g, "");
+        let start_time_formatted = start_date_utc.split(".")[0] + "Z";
+        let end = document.getElementById("id_end_date");
+        let end_date_utc = new Date(end.value).toISOString().replace(/-|:|\.\d\d\d/g, "");
+        let end_time_formatted = end_date_utc.split(".")[0] + "Z";
+        if (start_date_utc > end_date_utc){
+            const toast = document.getElementById('status-toast');
+            toast.className = "toast bg-danger";
+            const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toast);
+            document.getElementById('toast-status').innerHTML = "面談開始日時と面談終了日時の組み合わせが不正です<br><br>面談終了日時は面談開始日時よりも未来の日付である必要があります";
+            toastBootstrap.show();
+            return 1
+        }
+        let params = new URLSearchParams({
+            action: 'TEMPLATE',
+            text: title.value,
+            dates: `${start_time_formatted}/${end_time_formatted}`,
+            details: `CRAIMASにより追加されました\r\n\r\n ___面談メモ___\r\n${note.value}\r\n_______________\r\n\r\nイベントへのURL: ${Event_URL.value}`,
+            location: place.value,
+            trp: 'false',
+        });
+        Main.default.open_as_window.open_as_window(`${baseURL}?${params.toString()}`, "GoogleCalendar", "800", "1000");
+    })
+
 
     let s = document.getElementById("auto-save-check");
         s.addEventListener("click", () => {

@@ -42,7 +42,24 @@ export default interview_create;
         
     };
 function init(){
+
     let wind3;
+    //開始日時変更時に自動で終了時刻がセットされる
+    let date = document.getElementById("id_date");
+    date.addEventListener("change", () => {
+        let end_date = document.getElementById("id_end_date");
+        end_date.value = date.value;
+        })
+    let form = document.getElementById("create_form");
+    form.addEventListener("submit", (event) => {
+        let start_date = document.getElementById("id_date").value;
+        let end_date = document.getElementById("id_end_date").value;
+
+        if(start_date > end_date){
+            event.preventDefault();
+            alert('終了日時は開始日時より後に設定してください。');
+        }
+    })
     window.addEventListener('beforeunload', function(){
             if (wind3){
                 wind3.close();
