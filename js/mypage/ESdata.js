@@ -5,13 +5,13 @@ const ESdata = {
 }
 function crteateESModelTemplate(data, date){
     let resultStr = ""
-    resultStr+= "\n----------\n"
-    resultStr+= `登録日時: ${date}\n`
-    resultStr+= `タイトル: ${data.title}\n`
-    resultStr+= `タグ: ${data.tag}\n`
-    resultStr+= `詳細: ${data.desc}\n`
+    resultStr+= "\n==============\n"
+    resultStr+= `\n登録日時 \n${date}\n`
+    resultStr+= `\nタイトル \n${data.title}\n`
+    resultStr+= `\nタグ \n${data.tag}\n`
+    resultStr+= `\n詳細 \n${data.desc}\n`
     resultStr+= "<<<ここにメモを記入してください>>>\n"
-    resultStr+="----------\n"
+    resultStr+= "\n==============\n"
     return resultStr
 }
 async function get_detail(url){
