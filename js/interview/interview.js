@@ -162,6 +162,8 @@ function init(url){
         let place = document.getElementById("id_place");
         let start = document.getElementById("id_date");
         let Event_URL = document.getElementById("id_Event_URL");
+        let company_name = document.getElementById("company_name");
+        let interviewer = document.getElementById("id_interviewer");
         let start_date_utc = new Date(start.value).toISOString().replace(/-|:|\.\d\d\d/g, "");
         let start_time_formatted = start_date_utc.split(".")[0] + "Z";
         let end = document.getElementById("id_end_date");
@@ -177,9 +179,9 @@ function init(url){
         }
         let params = new URLSearchParams({
             action: 'TEMPLATE',
-            text: title.value,
+            text: `${company_name.innerText}: ${title.value}`,
             dates: `${start_time_formatted}/${end_time_formatted}`,
-            details: `CRAIMASにより追加されました\r\n\r\n ___面談メモ___\r\n${note.value}\r\n_______________\r\n\r\nイベントへのURL: ${Event_URL.value}`,
+            details: `CRAIMASにより追加されました。 \r\n 面談録: ${window.location.href}\r\n\r\n 担当面接官: ${interviewer.value}\r\n\r\n___面談メモ___\r\n${note.value}\r\n_______________\r\n\r\n${"イベントURL: " + Event_URL.value ? Event_URL.value : ""}`,
             location: place.value,
             trp: 'false',
         });
