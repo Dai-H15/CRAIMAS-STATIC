@@ -10,6 +10,7 @@ const interview = {
     "close_window": close_window,
     "exit_url": "",
     "id_autosave": "initialized",
+    "set_counter": set_counter,
 }
 import open_as_window from "../open_as_window";
 function open_url(id,name,width,height){
@@ -198,6 +199,24 @@ function init(url){
                 disable_autosave()
             }
         })
+
+        //文字数カウント
+}
+function set_counter(name){
+    let input = document.getElementById("id_" + name);
+    window.addEventListener("DOMContentLoaded",() => {
+        let input = document.getElementById("id_" + name);
+        let counter = document.getElementById("counter_" + name);
+        counter.innerText = input.value.length;
+    }
+    )
+    input.addEventListener("input", () => {
+        let counter = document.getElementById("counter_" + name);
+        counter.innerText = input.value.length;
+    });
+    let counter = document.getElementById("counter_" + name);
+    counter.innerText = input.value.length;
+
 }
 async function close_window(){
     let s = document.getElementById("auto-save-check");
