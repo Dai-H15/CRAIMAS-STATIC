@@ -1,7 +1,9 @@
 const ESdata = {
     "get_detail": get_detail,
     "save_check": save_check,
-    "all_clear": all_clear
+    "all_clear": all_clear,
+    "init": init,
+    "seaech": seaech
 }
 function crteateESModelTemplate(data, date){
     let resultStr = ""
@@ -63,6 +65,38 @@ async function save_check(url){
     } else {
         alert('エラーが発生しました。ネットワークを確認してください');
     }
+}
+async function init(url){
+    let spinner = document.getElementById("loading-spinner")
+    spinner.hidden = false
+
+    let res = await fetch(url);
+    let data = await res.text();
+    let table = document.getElementById("ES_table");
+    table.innerHTML = data;
+    spinner.hidden = true
+
+}
+async function seaech(url, what){
+    let spinner = document.getElementById("loading-spinner")
+    spinner.hidden = false;
+
+    let search_str = document.getElementById("search_str");
+    let search_data = search_str.value;
+
+    let form = document.getElementById("search");
+    let formData = new FormData(form);
+
+    formData.append('search_str', search_data);
+    formData.append("what", what);
+    let res = await fetch(url, {
+        method: 'POST',
+        body: formData
+    });
+    let data = await res.text();
+    let table = document.getElementById("ES_table");
+    table.innerHTML = data;
+    spinner.hidden = true
 }
 
 export default ESdata;

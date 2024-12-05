@@ -22,7 +22,7 @@ import cat_interview from "./custom_sheet/cat_interview";
 import footer from "./footer";
 import support from "./management/support";
 import ESmanage from "./ESmanage/ESmanage";
-import ESdata from "./mypage/ESdata"
+import ESdata from "./interview/ESdata"
 import search_interviewer from "./interview/search_interviewer";
 import ManagementInfomation from "./management/ManagementInfomation";
 import Index from './index'
@@ -56,6 +56,6 @@ const bundle = {
     "ESmanage": ESmanage,
     "ESdata": ESdata,
     "Index": Index,
-    "version": "3.0.5"
+    "version": "3.1.8"
 }
 export default bundle;

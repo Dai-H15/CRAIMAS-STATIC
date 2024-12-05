@@ -124,6 +124,7 @@ function enable_autosave(){
     time_toastBootstrap.show();
 
     interview.id_autosave =  setInterval(() =>{t_save(true)}, 30000)
+    setTimeout(() => {t_save(true)}, 3000);
     }
 function disable_autosave(){
     clearInterval(interview.id_autosave);
