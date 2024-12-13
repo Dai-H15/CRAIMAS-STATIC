@@ -10,6 +10,10 @@ const interview = {
     "close_window": close_window,
     "exit_url": "",
     "id_autosave": "initialized",
+    "autosave_status": {
+        "is_saved": "initialized",
+        "interval": null,
+    },
     "set_counter": set_counter,
 }
 import open_as_window from "../open_as_window";
@@ -57,6 +61,8 @@ async function t_save(autosave){
     let data;
     let toast = document.getElementById('status-toast');
     let toastBootstrap = bootstrap.Toast.getOrCreateInstance(toast);
+    const time_toast = document.getElementById('time-toast');
+    const time_toastBootstrap = bootstrap.Toast.getOrCreateInstance(time_toast);
 
     const init = {
         method: "POST",
@@ -65,19 +71,28 @@ async function t_save(autosave){
     try{
         res = await fetch(url,init);
         data = await res.json();
+        if(interview.autosave_status.is_saved == "fail"){
+            clearInterval(interview.autosave_status.interval);
+            interview.autosave_status.interval = null;
+            toast.className = "toast bg-success";
+            document.getElementById('toast-status').innerHTML = `ネットワークが再接続されました`;
+            toastBootstrap.show();
+            time_toast.className = "toast bg-info";
+            time_toastBootstrap.show()
+        }
+        interview.autosave_status.is_saved = "success";
     }catch{
-        
         if(interview.id_autosave != "initialized"){
-            const time_toast = document.getElementById('time-toast');
-            const time_toastBootstrap = bootstrap.Toast.getOrCreateInstance(time_toast);
             time_toast.className = "toast bg-danger";
-            document.getElementById("auto-save-check").checked = false;
-            disable_autosave();
             time_toastBootstrap.show()
             }
         toast.className = "toast bg-danger";
-        document.getElementById('toast-status').innerHTML = `保存に失敗しました。ネットワーク接続を確認してください。`;
         toastBootstrap.show();
+        interview.autosave_status.is_saved = "fail";
+        if(interview.autosave_status.interval === null){
+            document.getElementById('toast-status').innerHTML = `保存に失敗しました。ネットワーク接続を確認してください。5秒後に再試行します`;
+            interview.autosave_status.interval = setInterval(()=>{t_save(autosave)}, 5000);
+        }
         
     }
 
@@ -95,7 +110,6 @@ async function t_save(autosave){
         toast = document.getElementById('status-toast');
         toastBootstrap = bootstrap.Toast.getOrCreateInstance(toast);
         document.getElementById("auto-save-check").checked = false;
-        disable_autosave();
         toast.className = "toast bg-danger";
         document.getElementById('toast-status').innerHTML = `保存に失敗しました。 <br> 理由:  ${data.errors}` ;
         toastBootstrap.show();
@@ -123,11 +137,12 @@ function enable_autosave(){
     const time_toastBootstrap = bootstrap.Toast.getOrCreateInstance(time_toast);
     document.getElementById('time-toast-status').innerHTML = "最後に自動保存された時刻が表示されます";
     time_toastBootstrap.show();
-
+    interview.autosave_status.is_saved = "initialized"
     interview.id_autosave =  setInterval(() =>{t_save(true)}, 30000)
     setTimeout(() => {t_save(true)}, 3000);
     }
 function disable_autosave(){
+    interview.autosave_status.is_saved = "initialized"
     clearInterval(interview.id_autosave);
     const toast = document.getElementById('status-toast');
     toast.className = "toast bg-secondary";
