@@ -27,6 +27,7 @@ async function get_detail(url){
         f[i].disabled = true;
     }
     document.getElementById("id_tag").disabled = true;
+    document.getElementById("search_str").disabled = false;
     }
 
 async function all_clear(url){
