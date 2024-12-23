@@ -17,8 +17,7 @@ import delete_post from "./mypage/delete_post";
 import view_my_post from "./mypage/view_my_post";
 import calc from "./calc";
 import calendar_main from "./calendar_main";
-import custom_sheet_create from "./custom_sheet/create";
-import cat_interview from "./custom_sheet/cat_interview";
+
 import footer from "./footer";
 import support from "./management/support";
 import ESmanage from "./ESmanage/ESmanage";
@@ -26,6 +25,7 @@ import ESdata from "./interview/ESdata"
 import search_interviewer from "./interview/search_interviewer";
 import ManagementInfomation from "./management/ManagementInfomation";
 import Index from './index'
+import custom_sheet from "./custom_sheet/custom_sheet";
 
 const bundle = {
     "apply_extension": apply_extension,
@@ -48,14 +48,13 @@ const bundle = {
     "view_my_post": view_my_post,
     "calc": calc,
     "calendar_main": calendar_main,
-    "custom_sheet_create":custom_sheet_create,
-    "cat_interview": cat_interview,
+    "custom_sheet":custom_sheet,
     "footer": footer,
     "support": support,
     "ManagementInfomation": ManagementInfomation,
     "ESmanage": ESmanage,
     "ESdata": ESdata,
     "Index": Index,
-    "version": "3.3.6"
+    "version": "3.3.8"
 }
 export default bundle;
